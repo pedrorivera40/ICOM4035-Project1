@@ -1,5 +1,8 @@
 package TesterClasses;
 
+import P1.DiskUnit;
+import P1.VirtualDiskBlock;
+
 public class DiskUnitTester1 {
 
 	/**
