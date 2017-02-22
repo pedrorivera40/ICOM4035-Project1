@@ -3,6 +3,12 @@ package P1;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.security.InvalidParameterException;
+
+import Exceptions.ExistingDiskException;
+import Exceptions.InvalidBlockException;
+import Exceptions.InvalidBlockNumberException;
+import Exceptions.NonExistingDiskException;
 
 public class DiskUnit {
 
@@ -33,8 +39,8 @@ public class DiskUnit {
 	// methods corresponding to disk operations, as well as the class 
 	// static methods as specified …
 
-	public void write(int blockNum, VirtualDiskBlock b) 
-			throws InvalidBlockNumberException, InvalidBlockException {
+	public void write(int blockNum, VirtualDiskBlock b)
+			  throws InvalidBlockNumberException, InvalidBlockException {
 
 	}
 
