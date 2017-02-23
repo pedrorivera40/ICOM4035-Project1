@@ -51,7 +51,7 @@ public class DiskUnit {
 		// TODO
 
 		// Validating blockNum...
-		if(blockNum > capacity-1 || blockNum <= 0){
+		if(blockNum > capacity-1 || blockNum < 0){ // If is 0?
 			throw new InvalidBlockNumberException("write: Invalid blockNum - " + blockNum
 					+ " while capacity is: " + capacity + ".");
 		}
