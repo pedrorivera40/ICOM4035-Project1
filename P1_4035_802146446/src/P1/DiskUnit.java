@@ -47,8 +47,35 @@ public class DiskUnit {
 	 * @throws InvalidBlockException - Thrown whenever b doesn't represent a valid disk block.
 	 */
 	public void write(int blockNum, VirtualDiskBlock b)
-			  throws InvalidBlockNumberException, InvalidBlockException {
+			throws InvalidBlockNumberException, InvalidBlockException {
 		// TODO
+
+		// Validating blockNum...
+		if(blockNum > capacity-1 || blockNum <= 0){
+			throw new InvalidBlockNumberException("write: Invalid blockNum - " + blockNum
+					+ " while capacity is: " + capacity + ".");
+		}
+
+		// Validating b...
+		if(b == null || b.getCapacity() != this.capacity){
+			throw new InvalidBlockException("write: The provided block b is not valid: "
+					+ "b = " + b.toString() + " and its capacity is: " + b.getCapacity() 
+					+ ". It should be " + this.capacity + ".");
+		}
+
+		int blockIndex = 2; // Points to the first block...
+		for(int i = 0; i <= blockNum; i++){
+			blockIndex += blockSize;
+		}
+		try {
+			disk.seek(blockIndex);
+			for(int i = 0; i < blockSize; i++){
+				disk.writeByte(b.getElement(i)); // Verify...
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -68,7 +95,7 @@ public class DiskUnit {
 	 * @return - Returns the amount of valid blocks.
 	 */
 	public int getCapacity() { return this.capacity; } // verify...
-	
+
 	/**
 	 * Getter - Returns the size of a block on the current disk.
 	 * @return - Returns the block size.
