@@ -39,20 +39,46 @@ public class DiskUnit {
 	// methods corresponding to disk operations, as well as the class 
 	// static methods as specified …
 
+	/**
+	 * This method writes the content from the block b into the disk block corresponding to blockNum.
+	 * @param blockNum - Identifies the content to reach from the disk.
+	 * @param b - Represents the disk block to reach.
+	 * @throws InvalidBlockNumberException - Thrown whenever blockNum is not valid for the current disk.
+	 * @throws InvalidBlockException - Thrown whenever b doesn't represent a valid disk block.
+	 */
 	public void write(int blockNum, VirtualDiskBlock b)
 			  throws InvalidBlockNumberException, InvalidBlockException {
 		// TODO
 	}
 
+	/**
+	 * This method reads a given block b from the disk.
+	 * @param blockNum - Identifies the content to reach from the disk.
+	 * @param b - Represents the disk block to reach.
+	 * @throws InvalidBlockNumberException - Thrown whenever blockNum is not valid for the current disk.
+	 * @throws InvalidBlockException - Thrown whenever b doesn't represent a valid disk block.
+	 */
 	public void read(int blockNum, VirtualDiskBlock b) 
 			throws InvalidBlockNumberException, InvalidBlockException {
 		// TODO
 	}
 
-	public int getCapacity() { return this.capacity; }
+	/**
+	 * Getter - Returns the number of valid blocks that the current disk has.
+	 * @return - Returns the amount of valid blocks.
+	 */
+	public int getCapacity() { return this.capacity; } // verify...
+	
+	/**
+	 * Getter - Returns the size of a block on the current disk.
+	 * @return - Returns the block size.
+	 */
+	public int getBlockSize() { return this.blockSize; } // verify...
 
-	public int getBlockSize() { return this.blockSize; }
-
+	/**
+	 * This method performs the format operation by visiting each
+	 * block and filling that space with zeroes.
+	 */
 	public void lowLevelFormat() {
 		// TODO
 	}
