@@ -49,35 +49,52 @@ public class DiskUnit {
 	public void write(int blockNum, VirtualDiskBlock b)
 			throws InvalidBlockNumberException, InvalidBlockException {
 		// TODO
+		// MUST HANDLE THE EXCEPTIONS...
 
 		// Validating blockNum...
-		if(blockNum > capacity-1 || blockNum < 0){ // If is 0?
-			throw new InvalidBlockNumberException("write: Invalid blockNum - " + blockNum
-					+ " while capacity is: " + capacity + ".");
+		try{
+			this.validateBlockNum(blockNum);
+		} catch(InvalidBlockNumberException e){
+			e.printStackTrace();
+			System.out.println("This block couldn't be writen since the index is out of range.");
 		}
 
 		// Validating b...
-		if(b == null || b.getCapacity() != this.blockSize){ // Fixing to blockSize...
-			throw new InvalidBlockException("write: The provided block b is not valid: "
-					+ "b = " + b.toString() + " and its capacity is: " + b.getCapacity() 
-					+ ". It should be " + this.blockSize + ".");
+		try{
+			this.validateVirtualDiskBlock(b);
+		} catch(InvalidBlockException e){
+			e.printStackTrace();
+			System.out.println("This block couldn't be writen since it doesn't satisfy the DiskUnit specs.");
 		}
 		
-		// Fixing blockIndex... Still needs some fix... 
-		int blockIndex = 2; // Points to the first block...
-		for(int i = 0; i <= blockNum; i++){
-			blockIndex += blockSize;
-		}
+		// Writing...
 		try {
-			disk.seek(blockIndex); // capacity*blockNum...
+			disk.seek(blockSize*blockNum); // Skips the block 0...
 			for(int i = 0; i < blockSize; i++){
-				disk.writeByte(b.getElement(i)); // Verify...
+				disk.writeByte(b.getElement(i)); 
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
+	
+	private void validateBlockNum(int blockNum){
+		if(blockNum > capacity-1 || blockNum < 0){ // (We can't access the block at index 0... (there's important info there.)
+			throw new InvalidBlockNumberException("validateBlockNum: Invalid blockNum - " + blockNum
+					+ " while capacity is: " + capacity + ".");
+		}
+	}
+	
+	private void validateVirtualDiskBlock(VirtualDiskBlock b){
+		if(//b == null || 
+				b.getCapacity() != this.getBlockSize()){ // Fixing to blockSize...
+			throw new InvalidBlockException("validateVirtualDiskBlock: The provided block b is not valid: "
+					+ "b = " + b.toString() + " and its capacity is: " + b.getCapacity() 
+					+ ". It should be " + this.blockSize + ".");
+		}
+	}
+	
 
 	/**
 	 * This method reads a given block b from the disk.
@@ -89,19 +106,67 @@ public class DiskUnit {
 	public void read(int blockNum, VirtualDiskBlock b) 
 			throws InvalidBlockNumberException, InvalidBlockException {
 		// TODO
+		
+		// Validating blockNum...
+		try{
+			this.validateBlockNum(blockNum);
+		} catch(InvalidBlockNumberException e){
+			e.printStackTrace();
+			System.out.println("This block couldn't be read since the index is out of range.");
+		}
+		
+		// Validating b...
+		try{
+			this.validateVirtualDiskBlock(b);
+		} catch(InvalidBlockException e){
+			e.printStackTrace();
+			System.out.println("This block couldn't be writen since it doesn't satisfy the DiskUnit specs.");
+		}
+		
+		// Reading...
+		try {
+			disk.seek(blockSize*blockNum); // Skips the block 0...
+			for(int i = 0; i < blockSize; i++){
+				b.setElement(i, disk.readByte());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
 	 * Getter - Returns the number of valid blocks that the current disk has.
 	 * @return - Returns the amount of valid blocks.
 	 */
-	public int getCapacity() { return this.capacity; } // verify...
+	public int getCapacity() { // return this.capacity; // For me this is better... but specs...
+		try {
+			disk.seek(0);
+			return disk.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("The capacity couldn't be retrieved from the file,"
+					+ " the returned value is taken from the DiskUnit storage.");
+			return this.capacity;
+		}
+	} // verify...
 
 	/**
 	 * Getter - Returns the size of a block on the current disk.
 	 * @return - Returns the block size.
 	 */
-	public int getBlockSize() { return this.blockSize; } // verify...
+	public int getBlockSize() { // return this.blockSize; // For me this is better... but specs...
+		try {
+			disk.seek(4);
+			return disk.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("The blockSize couldn't be retrieved from the file, "
+					+ "the returned value is taken from the DiskUnit storage.");
+			return this.blockSize;
+		}
+		
+	} // verify...
 
 	/**
 	 * This method performs the format operation by visiting each
