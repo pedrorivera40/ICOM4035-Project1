@@ -1,7 +1,10 @@
 package P1;
 
+import Exceptions.InvalidBlockCapacityException;
+
 public class VirtualDiskBlock {
 	private static final int DEFAULT_BLOCK_CAPACITY = 256; // default number of bytes per block
+	private static final int MIN_BLOCK_CAPACITY = 8; // Minimum Block Capacity...
 	
 	private byte[] elements; // block...
 	private int capacity; // size...
@@ -15,7 +18,11 @@ public class VirtualDiskBlock {
 	 * Creates a new VirtualDiskBlock with capacity equals to blockCapacity.
 	 * @param blockCapacity - Represents the desired capacity.
 	 */
-	public VirtualDiskBlock(int blockCapacity) {
+	public VirtualDiskBlock(int blockCapacity) throws InvalidBlockCapacityException {
+		if(blockCapacity < MIN_BLOCK_CAPACITY){
+			throw new InvalidBlockCapacityException("ViarualDiskBlock: InvalidBlockCapacityException"
+					+ ": block capacity should be at least "+ MIN_BLOCK_CAPACITY +". Parameter entered is: " + blockCapacity);
+		}
 		this.elements = new byte[blockCapacity];
 		this.capacity = blockCapacity;
 	}

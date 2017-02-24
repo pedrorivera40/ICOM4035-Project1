@@ -57,18 +57,19 @@ public class DiskUnit {
 		}
 
 		// Validating b...
-		if(b == null || b.getCapacity() != this.capacity){
+		if(b == null || b.getCapacity() != this.blockSize){ // Fixing to blockSize...
 			throw new InvalidBlockException("write: The provided block b is not valid: "
 					+ "b = " + b.toString() + " and its capacity is: " + b.getCapacity() 
-					+ ". It should be " + this.capacity + ".");
+					+ ". It should be " + this.blockSize + ".");
 		}
-
+		
+		// Fixing blockIndex... Still needs some fix... 
 		int blockIndex = 2; // Points to the first block...
 		for(int i = 0; i <= blockNum; i++){
 			blockIndex += blockSize;
 		}
 		try {
-			disk.seek(blockIndex);
+			disk.seek(blockIndex); // capacity*blockNum...
 			for(int i = 0; i < blockSize; i++){
 				disk.writeByte(b.getElement(i)); // Verify...
 			}
