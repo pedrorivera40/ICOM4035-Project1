@@ -27,12 +27,14 @@ public class DiskUnitTester0 {
 				"on a particular disk unit before running the tester 2 on that same unit. " +
 				"As part of this exercise, you must figure out what each tester does and how it " +
 				"works. Why is the output as it is on each case? Basically, we are creating a file. "; 
+		
 
 		for (int i=0; i<disks.length; i++) {
 			DiskUnit d = DiskUnit.mount(disks[i]);  			
 			splitAndWriteToDisk(s, d);  
 			d.shutdown(); 
 		}
+
 	}
 	
 	
@@ -98,6 +100,7 @@ public class DiskUnitTester0 {
 			d.write(fileBlocks[bn-1], vdb); 
 
 		}
+
 	}
 
 	public static void copyNextBNToBlock(VirtualDiskBlock vdb, int value) { 
@@ -107,6 +110,7 @@ public class DiskUnitTester0 {
 			vdb.setElement(lastPos - index, (byte) (value & 0x000000ff)); 	
 			value = value >> 8; 
 		}
-	}
-}
 
+	}
+
+}

@@ -9,10 +9,14 @@ public class DiskUnitTester1 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		DiskUnit d = DiskUnit.mount("disk1"); // edit the name of the disk to mount
+		String str = "disk1";
+		DiskUnit d = DiskUnit.mount(str); // edit the name of the disk to mount
 		
 	    showDiskContent(d); 
 		
+		showFileInDiskContent(d);   
+		d.lowLevelFormat();
+		showDiskContent(d); 
 		showFileInDiskContent(d);   
 		d.shutdown(); 
 	}
@@ -28,6 +32,7 @@ public class DiskUnitTester1 {
 			showVirtualDiskBlock(bn, vdb);
 			bn = getNextBNFromBlock(vdb);			
 		}
+		
 	}
 
 	
@@ -40,7 +45,8 @@ public class DiskUnitTester1 {
 		for (int b = 0; b < d.getCapacity(); b++) { 
 			d.read(b, block); 
 			showVirtualDiskBlock(b, block); 
-		}	
+		}
+		
 	}
 
 	private static void showVirtualDiskBlock(int b, VirtualDiskBlock block) {
@@ -63,6 +69,7 @@ public class DiskUnitTester1 {
 			vdb.setElement(lastPos - index, (byte) (value & 0x000000ff)); 	
 			value = value >> 8; 
 		}
+
 	}
 	
 	private static int getNextBNFromBlock(VirtualDiskBlock vdb) { 
@@ -77,4 +84,6 @@ public class DiskUnitTester1 {
 		return value; 
 
 	}
+
 }
+

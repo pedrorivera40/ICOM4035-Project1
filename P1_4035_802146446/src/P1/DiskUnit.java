@@ -37,7 +37,7 @@ public class DiskUnit {
 	}
 
 	// methods corresponding to disk operations, as well as the class 
-	// static methods as specified …
+	// static methods as specified ï¿½
 
 	/**
 	 * This method writes the content from the block b into the disk block corresponding to blockNum.
@@ -80,7 +80,7 @@ public class DiskUnit {
 	}
 	
 	private void validateBlockNum(int blockNum){
-		if(blockNum > capacity-1 || blockNum < 0){ // (We can't access the block at index 0... (there's important info there.)
+		if(blockNum > this.getCapacity()-1 || blockNum < 0){ // (We can't access the block at index 0... (there's important info there.)
 			throw new InvalidBlockNumberException("validateBlockNum: Invalid blockNum - " + blockNum
 					+ " while capacity is: " + capacity + ".");
 		}
@@ -173,7 +173,13 @@ public class DiskUnit {
 	 * block and filling that space with zeroes.
 	 */
 	public void lowLevelFormat() {
-		// TODO
+		// VERIFY
+		try {
+			disk.seek(blockSize);
+			disk.write(new byte[(blockSize)*(capacity-1)]);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/** Simulates shutting-off the disk. Just closes the corresponding RAF. **/
@@ -191,7 +197,7 @@ public class DiskUnit {
 	 * @param name the name of the disk unit to activate
 	 * @return the corresponding DiskUnit object
 	 * @throws NonExistingDiskException whenever no
-	 *    ¨disk¨ with the specified name is found.
+	 *    ï¿½diskï¿½ with the specified name is found.
 	 */
 	public static DiskUnit mount(String name)
 			throws NonExistingDiskException {
