@@ -87,8 +87,7 @@ public class DiskUnit {
 	}
 	
 	private void validateVirtualDiskBlock(VirtualDiskBlock b){
-		if(//b == null || 
-				b.getCapacity() != this.getBlockSize()){ // Fixing to blockSize...
+		if(b == null || b.getCapacity() != this.getBlockSize()){ // Fixing to blockSize...
 			throw new InvalidBlockException("validateVirtualDiskBlock: The provided block b is not valid: "
 					+ "b = " + b.toString() + " and its capacity is: " + b.getCapacity() 
 					+ ". It should be " + this.blockSize + ".");
