@@ -1,4 +1,4 @@
-package P1;
+package diskUtilities;
 
 import java.io.File;
 import java.io.IOException;

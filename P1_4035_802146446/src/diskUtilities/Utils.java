@@ -1,4 +1,4 @@
-package P1;
+package diskUtilities;
 
 public class Utils {
 

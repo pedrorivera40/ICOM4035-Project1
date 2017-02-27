@@ -1,7 +1,7 @@
-package TesterClasses;
+package Testers;
 
-import P1.DiskUnit;
-import P1.VirtualDiskBlock;
+import diskUtilities.DiskUnit;
+import diskUtilities.VirtualDiskBlock;
 
 public class DiskUnitTester0 {
 
