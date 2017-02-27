@@ -24,6 +24,7 @@ public class DiskUnit {
 
 	// the constructor -- PRIVATE
 	/**
+	 * 
 	    @param name is the name of the disk
 	 **/
 	private DiskUnit(String name) {
@@ -48,12 +49,10 @@ public class DiskUnit {
 	 */
 	public void write(int blockNum, VirtualDiskBlock b)
 			throws InvalidBlockNumberException, InvalidBlockException {
-		// TODO
-		// MUST HANDLE THE EXCEPTIONS...
 
 		// Validating blockNum...
 		try{
-			this.validateBlockNum(blockNum);
+			this.validateBlockNum(blockNum, true);
 		} catch(InvalidBlockNumberException e){
 			e.printStackTrace();
 			System.out.println("This block couldn't be writen since the index is out of range.");
@@ -79,8 +78,8 @@ public class DiskUnit {
 
 	}
 	
-	private void validateBlockNum(int blockNum){
-		if(blockNum > this.getCapacity()-1 || blockNum < 0){ // (We can't access the block at index 0... (there's important info there.)
+	private void validateBlockNum(int blockNum, boolean isWriting){ // accepts the index and a boolean to determine wether is reading or writing...
+		if(blockNum > this.getCapacity()-1 || blockNum < 0 || (isWriting && blockNum == 0)){ // (We can't access the block at index 0... (there's important info there.)
 			throw new InvalidBlockNumberException("validateBlockNum: Invalid blockNum - " + blockNum
 					+ " while capacity is: " + capacity + ".");
 		}
@@ -108,7 +107,7 @@ public class DiskUnit {
 		
 		// Validating blockNum...
 		try{
-			this.validateBlockNum(blockNum);
+			this.validateBlockNum(blockNum, false); // we send false, because we are reading...
 		} catch(InvalidBlockNumberException e){
 			e.printStackTrace();
 			System.out.println("This block couldn't be read since the index is out of range.");
@@ -138,7 +137,7 @@ public class DiskUnit {
 	 * Getter - Returns the number of valid blocks that the current disk has.
 	 * @return - Returns the amount of valid blocks.
 	 */
-	public int getCapacity() { // return this.capacity; // For me this is better... but specs...
+	public int getCapacity() {
 		try {
 			disk.seek(0);
 			return disk.readInt();
@@ -148,13 +147,13 @@ public class DiskUnit {
 					+ " the returned value is taken from the DiskUnit storage.");
 			return this.capacity;
 		}
-	} // verify...
+	}
 
 	/**
 	 * Getter - Returns the size of a block on the current disk.
 	 * @return - Returns the block size.
 	 */
-	public int getBlockSize() { // return this.blockSize; // For me this is better... but specs...
+	public int getBlockSize() { 
 		try {
 			disk.seek(4);
 			return disk.readInt();
@@ -165,14 +164,14 @@ public class DiskUnit {
 			return this.blockSize;
 		}
 		
-	} // verify...
+	} 
 
 	/**
 	 * This method performs the format operation by visiting each
 	 * block and filling that space with zeroes.
 	 */
 	public void lowLevelFormat() {
-		// VERIFY
+
 		try {
 			disk.seek(blockSize);
 			disk.write(new byte[(blockSize)*(capacity-1)]);

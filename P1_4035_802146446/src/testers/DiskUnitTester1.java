@@ -9,7 +9,7 @@ public class DiskUnitTester1 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String str = "disk1";
+		String str = "disk4";
 		DiskUnit d = DiskUnit.mount(str); // edit the name of the disk to mount
 		
 	    showDiskContent(d); 
