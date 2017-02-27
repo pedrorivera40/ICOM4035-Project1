@@ -10,6 +10,11 @@ import Exceptions.InvalidBlockException;
 import Exceptions.InvalidBlockNumberException;
 import Exceptions.NonExistingDiskException;
 
+/**
+ * DiskUnit consists on a sequence of objects (VirtualDiskBlock) emulating a memory system.
+ * @author Pedro Luis Rivera
+ *
+ */
 public class DiskUnit {
 
 	private static final int DEFAULT_CAPACITY = 1024;  // default number of blocks 	
@@ -24,7 +29,6 @@ public class DiskUnit {
 
 	// the constructor -- PRIVATE
 	/**
-	 * 
 	    @param name is the name of the disk
 	 **/
 	private DiskUnit(String name) {
@@ -79,14 +83,14 @@ public class DiskUnit {
 	}
 	
 	private void validateBlockNum(int blockNum, boolean isWriting){ // accepts the index and a boolean to determine wether is reading or writing...
-		if(blockNum > this.getCapacity()-1 || blockNum < 0 || (isWriting && blockNum == 0)){ // (We can't access the block at index 0... (there's important info there.)
+		if(blockNum > this.getCapacity()-1 || blockNum < 0 || (isWriting && blockNum == 0)){ // (We can't write the block at index 0... (there's important info there.)
 			throw new InvalidBlockNumberException("validateBlockNum: Invalid blockNum - " + blockNum
 					+ " while capacity is: " + capacity + ".");
 		}
 	}
 	
 	private void validateVirtualDiskBlock(VirtualDiskBlock b){
-		if(b == null || b.getCapacity() != this.getBlockSize()){ // Fixing to blockSize...
+		if(b == null || b.getCapacity() != this.getBlockSize()){ 
 			throw new InvalidBlockException("validateVirtualDiskBlock: The provided block b is not valid: "
 					+ "b = " + b.toString() + " and its capacity is: " + b.getCapacity() 
 					+ ". It should be " + this.blockSize + ".");
@@ -103,7 +107,6 @@ public class DiskUnit {
 	 */
 	public void read(int blockNum, VirtualDiskBlock b) 
 			throws InvalidBlockNumberException, InvalidBlockException {
-		// TODO
 		
 		// Validating blockNum...
 		try{
@@ -171,10 +174,9 @@ public class DiskUnit {
 	 * block and filling that space with zeroes.
 	 */
 	public void lowLevelFormat() {
-
 		try {
 			disk.seek(blockSize);
-			disk.write(new byte[(blockSize)*(capacity-1)]);
+			disk.write(new byte[(blockSize)*(capacity-1)]); // writes an empty bytes array starting from block 1... (Java automatically sets the default uninitialized values to 0 (numerical) and to false (boolean)).
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

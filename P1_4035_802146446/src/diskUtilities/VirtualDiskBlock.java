@@ -2,6 +2,11 @@ package diskUtilities;
 
 import Exceptions.InvalidBlockCapacityException;
 
+/**
+ * VirtualDiskBlock emulates a memory disk with a fixed block capacity.
+ * @author Pedro Luis Rivera
+ *
+ */
 public class VirtualDiskBlock {
 	private static final int DEFAULT_BLOCK_CAPACITY = 256; // default number of bytes per block
 	private static final int MIN_BLOCK_CAPACITY = 8; // Minimum Block Capacity...

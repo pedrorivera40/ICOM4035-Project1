@@ -1,5 +1,10 @@
 package diskUtilities;
 
+/**
+ * Utils contains special methods for general use.
+ * @author Pedro Luis Rivera
+ *
+ */
 public class Utils {
 
 	/**
