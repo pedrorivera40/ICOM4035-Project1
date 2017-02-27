@@ -1,4 +1,4 @@
-package Testers;
+package testers;
 
 import diskUtilities.DiskUnit;
 import diskUtilities.VirtualDiskBlock;
